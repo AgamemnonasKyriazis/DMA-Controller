@@ -2,9 +2,9 @@
 #include "xdma.h"
 
 int transfer_from_memory(uint64_t * src, size_t size) {
-    uint64_t src_addr_l, src_addr_u;
-    uint64_t length;
-    uint64_t ctrl;
+    uint32_t src_addr_l, src_addr_u;
+    uint32_t length;
+    uint32_t ctrl;
 
     if (!xdma_init_done) {
         return -1;
@@ -24,9 +24,9 @@ int transfer_from_memory(uint64_t * src, size_t size) {
 }
 
 int transfer_to_memory(uint64_t * dst, size_t size) {
-    uint64_t dst_addr_l, dst_addr_u;
-    uint64_t length;
-    uint64_t ctrl;
+    uint32_t dst_addr_l, dst_addr_u;
+    uint32_t length;
+    uint32_t ctrl;
     
     if (!xdma_init_done) {
         return -1;

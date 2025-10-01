@@ -21,7 +21,7 @@ const char * c2h_1_fp = "/dev/xdma0_h2c_1";
 const char * c2h_2_fp = "/dev/xdma0_h2c_2";
 const char * c2h_3_fp = "/dev/xdma0_h2c_3";
 
-const char * usr_fp   = "/dev/xdma0_usr";
+const char * usr_fp   = "/dev/xdma0_user";
 
 int h2c_0_fd = -1;
 int h2c_1_fd = -1;
@@ -122,14 +122,14 @@ int xdma_read_mem (void * hptr, size_t nbytes, void * dptr) {
     return bytes_read;
 }
 
-int xdma_write_reg (uint64_t value, uint64_t reg_addr) {
+int xdma_write_reg (uint32_t value, uint32_t reg_addr) {
     int bytes_written;
     if (usr_fd < 0) {
         perror ("Failed to use RW-CHu of XDMA file not open");
         return -1;
     }
    
-    bytes_written = pwrite (usr_fd, &value, sizeof(uint64_t), reg_addr);
+    bytes_written = pwrite (usr_fd, &value, sizeof(uint32_t), reg_addr);
     if (bytes_written <= 0) {
         perror ("Write failed - No data written to device");
         return -1;
@@ -137,14 +137,14 @@ int xdma_write_reg (uint64_t value, uint64_t reg_addr) {
     return bytes_written;
 }
 
-int xdma_read_reg (uint64_t * buf, uint64_t reg_addr) {
+int xdma_read_reg (uint32_t * buf, uint32_t reg_addr) {
     int bytes_read;
     if (usr_fd < 0) {
         perror ("Failed to use RW-CHu of XDMA file not open");
         return -1;
     }
     
-    bytes_read = pread (usr_fd, buf, sizeof(uint64_t), reg_addr);
+    bytes_read = pread (usr_fd, buf, sizeof(uint32_t), reg_addr);
     if (bytes_read <= 0) {
         perror ("Write failed - No data written to device");
         return -1;
