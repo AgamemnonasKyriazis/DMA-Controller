@@ -60,8 +60,16 @@ int xdma_init () {
         return -1;
     }
 
-    xdma_init_done = 1;  
+    xdma_init_done = 1;
     return 0;
+}
+
+int xdma_release() {
+    close(h2c_0_fd);
+    close(c2h_0_fd);
+    close(usr_fd);
+    xdma_init_done = 0;
+    return xdma_init_done;
 }
 
 int xdma_write_mem (void * hptr, size_t nbytes, void * dptr) {
@@ -90,6 +98,7 @@ int xdma_write_mem (void * hptr, size_t nbytes, void * dptr) {
         perror ("Write failed - No data written to device");
         return -1;
     }
+    fsync(h2c_0_fd);
     return bytes_written;
 }
 
@@ -119,6 +128,7 @@ int xdma_read_mem (void * hptr, size_t nbytes, void * dptr) {
         perror ("Read failed - No data read from device");
         return -1;
     }
+    fsync(c2h_0_fd);
     return bytes_read;
 }
 
@@ -134,6 +144,7 @@ int xdma_write_reg (uint32_t value, uint32_t reg_addr) {
         perror ("Write failed - No data written to device");
         return -1;
     }
+    fsync(usr_fd);
     return bytes_written;
 }
 
@@ -149,5 +160,6 @@ int xdma_read_reg (uint32_t * buf, uint32_t reg_addr) {
         perror ("Write failed - No data written to device");
         return -1;
     }
+    fsync(usr_fd);
     return bytes_read;
 }

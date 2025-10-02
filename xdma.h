@@ -8,6 +8,8 @@ extern int xdma_init_done;
 
 int xdma_init ();
 
+int xdma_release();
+
 int xdma_write_mem (void * hptr, size_t nbytes, void * dptr);
 
 int xdma_read_mem (void * hptr, size_t nbytes, void * dptr);
